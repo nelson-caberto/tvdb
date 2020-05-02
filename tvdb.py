@@ -8,7 +8,7 @@ class tvdb:
     postHeader = {'Content-Type': 'application/json'}
     getHeader = {'Accept': 'application/json'}
 
-    token = ''
+    token = '' 
 
     response_status_codes = {
         200:"success"
@@ -40,8 +40,10 @@ class tvdb:
 
     def refresh_token(self):
         url = self.url + '/refresh_token'
-        #assert getHeader already has Authorization Bearer token
+        
+        assert 'Authorization' in self.getHeader
         response = requests.get(url, headers=self.getHeader)
-        #assert response status is 200
+
+        assert response.status_code == 200
         self.token = response.json()['token']
         self.getHeader['Authorization'] = 'Bearer ' + self.token
